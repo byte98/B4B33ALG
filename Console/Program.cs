@@ -10,7 +10,7 @@ namespace NetConsole
     {
         static void Main(string[] args)
         {
-            Logger logger = new Logger(0);
+            Logger logger = new Logger(Structures.LogLevel.BASIC, Structures.DateFormat.NONE, Structures.TimeFormat.NONE);
             logger.LogBasic("Logger started...");
             Network provider = new Network(System.Net.IPAddress.Loopback, 1350, logger);
             provider.sendMessage("Test");

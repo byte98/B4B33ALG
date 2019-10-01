@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NetConsole
 {
-    public class Structures
+    public static class Structures
     {
         public enum LogLevel
         {
@@ -16,11 +16,52 @@ namespace NetConsole
 
             WARNING,
 
+            SUCCESS,
+
             INFO,
 
             BASIC,
 
-            SUCCESS
         }
+
+        public enum DateFormat
+        {
+            NONE,
+
+            SHORT,
+
+            LONG
+        }
+
+        public enum TimeFormat
+        {
+            NONE,
+
+            HH,
+
+            HH_MM,
+
+            HH_MM_SS
+        }
+
+        public struct ConsoleColorScheme
+        {
+            public ConsoleColor header_background;
+            public ConsoleColor header_foreground;
+            public ConsoleColor body_background;
+            public ConsoleColor body_foreground;
+
+            public ConsoleColorScheme(ConsoleColor header_background,
+                                      ConsoleColor header_foreground,
+                                      ConsoleColor body_background,
+                                      ConsoleColor body_foreground)
+            {
+                this.header_background = header_background;
+                this.header_foreground = header_foreground;
+                this.body_background = body_background;
+                this.body_foreground = body_foreground;
+            }
+        }
+
     }
 }
