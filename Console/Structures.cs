@@ -12,7 +12,15 @@ namespace NetConsole
         {
             CRITICAL,
 
-            ERROR
+            ERROR,
+
+            WARNING,
+
+            INFO,
+
+            BASIC,
+
+            SUCCESS
         }
     }
 }
