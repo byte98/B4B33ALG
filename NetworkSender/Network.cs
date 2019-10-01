@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Net.Sockets;
 using System.Net;
-using NetConsole;
-using static NetConsole.Structures;
+using NetworkSender;
+using static NetworkSender.Structures;
 
-namespace NetConsole
+namespace NetworkSender
 {
     class Network
     {
@@ -36,7 +36,7 @@ namespace NetConsole
         {
             this.udpClient = new UdpClient();
             this.ipEndPoint = new IPEndPoint(this.ipAddress, this.port);
-            this.logger.LogTiny("Client started; listening on port " + this.port);
+            this.logger.LogSuccess("Client started; sedning via port " + this.port);
         }
 
         public void sendMessage(string message)
