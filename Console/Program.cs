@@ -14,7 +14,10 @@ namespace NetConsole
             Logger logger = new Logger(Structures.LogLevel.TINY, Structures.DateFormat.NONE, Structures.TimeFormat.NONE);
             logger.LogTiny("Logger started...");
             Network provider = new Network(System.Net.IPAddress.Loopback, port, logger);
-            provider.sendMessage("Test");
+            while (true)
+            {
+                provider.LogMessage(provider.ReceiveMessage());
+            }
             Console.ReadKey();
 
         }

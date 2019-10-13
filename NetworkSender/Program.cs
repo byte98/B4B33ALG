@@ -210,6 +210,10 @@ namespace NetworkSender
             Console.WriteLine("[  INFO  ]");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine(" - B for (basic)");
+            Console.Write(" - S for ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("[SUCCESS ]");
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.Write(" - T for ");
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("(  tiny  )");

@@ -99,9 +99,19 @@ namespace NetConsole
             return reti;
         }
 
+        public void LogCritical(string message)
+        {
+            this.Log(LogLevel.CRITICAL, message);
+        }
+
         public void LogError(string message)
         {
             this.Log(LogLevel.ERROR, message);
+        }
+
+        public void LogWarning(string message)
+        {
+            this.Log(LogLevel.WARNING, message);
         }
 
         public void LogInfo(string message)
