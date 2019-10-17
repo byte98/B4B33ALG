@@ -74,7 +74,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -85,7 +85,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -98,7 +98,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -113,7 +113,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -127,6 +127,35 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="hw01.c" />
+    <ClCompile Include="hw01utils.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="datapub\pub01.in" />
+    <None Include="datapub\pub01.out" />
+    <None Include="datapub\pub02.in" />
+    <None Include="datapub\pub02.out" />
+    <None Include="datapub\pub03.in" />
+    <None Include="datapub\pub03.out" />
+    <None Include="datapub\pub04.in" />
+    <None Include="datapub\pub04.out" />
+    <None Include="datapub\pub05.in" />
+    <None Include="datapub\pub05.out" />
+    <None Include="datapub\pub06.in" />
+    <None Include="datapub\pub06.out" />
+    <None Include="datapub\pub07.in" />
+    <None Include="datapub\pub07.out" />
+    <None Include="datapub\pub08.in" />
+    <None Include="datapub\pub08.out" />
+    <None Include="datapub\pub09.in" />
+    <None Include="datapub\pub09.out" />
+    <None Include="datapub\pub10.in" />
+    <None Include="datapub\pub10.out" />
+    <None Include="run.sh" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="config.h" />
+    <ClInclude Include="hw01utils.h" />
+    <ClInclude Include="structures.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

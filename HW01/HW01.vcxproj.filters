@@ -26,5 +26,84 @@
     <ClCompile Include="hw01.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="hw01utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="datapub\pub01.in">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datapub\pub01.out">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datapub\pub02.in">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datapub\pub02.out">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datapub\pub03.in">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datapub\pub03.out">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datapub\pub04.in">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datapub\pub04.out">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datapub\pub05.in">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datapub\pub05.out">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datapub\pub06.in">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datapub\pub06.out">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datapub\pub07.in">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datapub\pub07.out">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datapub\pub08.in">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datapub\pub08.out">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datapub\pub09.in">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datapub\pub09.out">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datapub\pub10.in">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datapub\pub10.out">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="run.sh">
+      <Filter>Build</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="structures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hw01utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
