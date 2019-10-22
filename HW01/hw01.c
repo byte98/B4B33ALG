@@ -128,15 +128,20 @@ int main(int argc, char* argv[])
 				}
 
 				result.visible_both = check_visible_both(&situation);
-				result.visible_one = queue_count(situation.notes_in) + queue_count(situation.notes_out) - result.visible_both;
+				result.visible_one = check_visible_one(&situation) - result.visible_both;
 				result.unvisible = COUNT - result.visible_both - result.visible_one;
 
 #ifdef SAFE_MODE
 			}
 #endif // SAFE_MODE
+			free(notes);
+			queue_delete(situation.notes_in);
+			queue_delete(situation.notes_out);
 #ifdef SAFE_MODE
 		}
 #endif // SAFE_MODE
+		free(situation.situation_in);
+		free(situation.situation_out);
 #ifdef SAFE_MODE
 	}
 #endif // SAFE_MODE

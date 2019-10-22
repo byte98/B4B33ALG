@@ -54,6 +54,13 @@ void print_result(result_t* result);
 int check_visible_both(model_t* model);
 
 ///<summary>
+///Checks, how many notes are visible from at least one side
+///</summary>
+///<param name="model">Model describing final situation of problem</param>
+///<returns>Count of notes visible from at least one side</returns>
+int check_visible_one(model_t* model);
+
+///<summary>
 ///Defines maximum from two values
 ///</summary>
 ///<param name="a">First value in comparison</param>

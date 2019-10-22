@@ -23,6 +23,7 @@ queue_t* queue_create_static(int length)
 		reti->count = 0;
 		reti->head = 0;
 		reti->tail = 0;
+		reti->next_head = 0;
 		reti->data = malloc(reti->length * sizeof(int));
 #ifdef SAFE_MODE
 		if (reti->data == NULL)
@@ -50,7 +51,7 @@ bool queue_push(queue_t* queue, int data)
 		queue->tail++;
 		queue->count++;
 #ifdef DEBUG
-		printf("%d added to queue\n", data);
+		//printf("%d added to queue\n", data);
 #endif // DEBUG
 
 	}
@@ -68,7 +69,7 @@ int queue_pop(queue_t* queue)
 		queue->head++;
 		queue->count--;
 #ifdef DEBUG
-		printf("%d popped from queue\n", reti);
+		printf("%d popped from queue (new length: %d)\n", reti, queue->count);
 #endif // DEBUG
 	}
 	return reti;
@@ -109,10 +110,57 @@ int queue_at(queue_t* queue, int index)
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 
-bool queue_has_next(queue_t* queue)
+bool queue_is_not_empty(queue_t* queue)
 {
 	bool reti = (queue_count(queue) >= 1) ? TRUE : FALSE;
 	return reti;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
+int queue_next(queue_t* queue)
+{
+	int reti = NULL;
+	if (queue_next_not_empty(queue) == TRUE)
+	{
+		reti = queue->data[queue->next_head];
+		queue->next_head++;
+	}
+	return reti;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
+bool queue_next_not_empty(queue_t* queue)
+{
+	return (queue->next_head >= queue->tail) ? FALSE : TRUE;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
+void queue_reset_next_index(queue_t* queue)
+{
+	queue->next_head = queue->head;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
+queue_t* queue_reverse_data(queue_t* queue)
+{
+	queue_t* reti = queue_create_static(queue_count(queue));
+	for (int i = (queue->tail - 1); i >= queue->head; i--)
+	{
+		queue_push(reti, queue_at(queue, i));
+	}
+	return reti;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
+void queue_delete(queue_t* queue)
+{
+	free(queue->data);
+	free(queue);
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------
@@ -133,37 +181,7 @@ void queue_print(queue_t* queue)
 bool queue_contains(queue_t* queue, int element, sort_t sort)
 {
 	bool reti = FALSE;
-	if (sort == ASC)
-	{
-		for (int i = queue->head; i < queue->tail; i++)
-		{
-			if (queue_at(queue, i) == element)
-			{
-				reti = TRUE;
-				break;
-			}
-			if (queue_at(queue, i) > element)
-			{
-				break;
-			}
-		}
-	}
-	else if (sort == DESC)
-	{
-		for (int i = (queue->tail - 1); i >= queue->head; i++)
-		{
-			if (queue_at(queue, i) == element)
-			{
-				reti = TRUE;
-				break;
-			}
-			if (queue_at(queue, i) < element)
-			{
-				break;
-			}
-		}
-	}
-	else if (sort == NONE)
+	if (sort == NONE)
 	{
 		for (int i = queue->head; i <= queue->tail; i++)
 		{
@@ -173,6 +191,128 @@ bool queue_contains(queue_t* queue, int element, sort_t sort)
 				break;
 			}
 		}
+	}
+	else
+	{
+		reti = queue_binary_search(queue, element, sort);
+	}
+	return reti;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
+bool queue_binary_search(queue_t* queue, int element, sort_t sort)
+{
+	return queue_binary_search_recursive(queue, element, sort, queue->head, queue->tail);
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
+bool queue_binary_search_recursive(queue_t* queue, int element, sort_t sort, int start_index, int end_index)
+{
+	int index = queue_binary_search_next_index(start_index, end_index, queue);
+	int found = queue_at(queue, index);
+#ifdef DEBUG
+	printf("( %d %d %d) f:%d, s:%d [%d %d %d]\n", start_index, index, end_index, found, element, queue_at(queue, start_index), queue_at(queue, index), queue_at(queue, end_index));
+#endif // DEBUG
+
+	if (found == element)
+	{
+#ifdef DEBUG
+		printf(">> TRUE\n");
+#endif // DEBUG
+
+		return TRUE;
+	}
+	else if ((start_index == index && queue_index_in_queue(start_index, queue)) || (end_index == index && queue_index_in_queue(end_index, queue)))
+	{
+		if ((queue_at(queue, start_index) == element && queue_index_in_queue(start_index, queue) == TRUE) || (queue_at(queue, end_index) == element && queue_index_in_queue(end_index, queue) == TRUE))
+		{
+#ifdef DEBUG
+			printf(">> TRUE\n");
+#endif // DEBUG
+			return TRUE;
+		}
+		else
+		{
+#ifdef DEBUG
+			printf(">> FALSE\n");
+#endif // DEBUG
+			return FALSE;
+		}
+	}
+	else if (index != -1)
+	{
+		if (sort == ASC)
+		{
+			if (found > element)
+			{
+				return queue_binary_search_recursive(queue, element, sort, start_index, index);
+			}
+			else if (found < element)
+			{
+				return queue_binary_search_recursive(queue, element, sort, index, end_index);
+			}
+		}
+		else if (sort == DESC)
+		{
+			if (found > element)
+			{
+				return queue_binary_search_recursive(queue, element, sort, index, end_index);
+			}
+			else if (found < element)
+			{
+				return queue_binary_search_recursive(queue, element, sort, start_index, index);
+			}
+		}
+		else
+		{
+			if ((queue_at(queue, start_index) == element && queue_index_in_queue(start_index, queue) == TRUE) || (queue_at(queue, end_index) == element && queue_index_in_queue(end_index, queue) == TRUE))
+			{
+#ifdef DEBUG
+				printf(">> TRUE\n");
+#endif // DEBUG
+				return TRUE;
+			}
+		}
+	}
+	else if (index == -1)
+	{
+		if ((queue_at(queue, start_index) == element && queue_index_in_queue(start_index, queue) == TRUE) || (queue_at(queue, end_index) == element && queue_index_in_queue(end_index, queue)))
+		{
+#ifdef DEBUG
+			printf(">> TRUE\n");
+#endif // DEBUG
+			return TRUE;
+		}
+	}
+#ifdef DEBUG
+	printf(">> FALSE\n");
+#endif // DEBUG
+	return FALSE;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
+int queue_binary_search_next_index(int start_index, int end_index, queue_t* queue)
+{
+	int reti = -1;
+	int computed = (start_index + end_index) / 2;
+	if (queue_index_in_queue(computed, queue) == TRUE && start_index != end_index)
+	{
+		reti = computed;
+	}
+	return reti;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
+bool queue_index_in_queue(int index, queue_t* queue)
+{
+	bool reti = FALSE;
+	if (index >= queue->head && index < queue->tail)
+	{
+		reti = TRUE;
 	}
 	return reti;
 }

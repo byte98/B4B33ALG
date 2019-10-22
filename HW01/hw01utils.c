@@ -69,13 +69,74 @@ int check_visible_both(model_t* model)
 {
 	int reti = 0;
 
-	while (queue_has_next(model->notes_in) == TRUE)
+	while (queue_next_not_empty(model->notes_in) == TRUE)
 	{
-		int element = queue_pop(model->notes_in);
-		if (queue_contains(model->notes_out, element, ASC))
+		int element = queue_next(model->notes_in);
+		if (queue_contains(model->notes_out, element, ASC) == TRUE)
 		{
 			reti++;
 		}
 	}
+	return reti;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
+int check_visible_one(model_t* model)
+{
+	int reti = 0;
+
+	queue_t* data_union = queue_create_static((queue_count(model->notes_in) + queue_count(model->notes_out)));
+	queue_t* difference = queue_create_static(queue_count(model->notes_out));
+	queue_reset_next_index(model->notes_in);
+#ifdef DEBUG
+	printf("Checking visibility from one side only...\n");
+#endif // DEBUG
+
+	while (queue_next_not_empty(model->notes_in) == TRUE)
+	{
+		int element = queue_next(model->notes_in);
+		queue_push(data_union, element);
+
+	}
+	queue_reset_next_index(model->notes_in);
+	queue_reset_next_index(model->notes_out);
+	while (queue_next_not_empty(model->notes_out) == TRUE)
+	{
+		int element = queue_next(model->notes_out);
+#ifdef DEBUG
+		printf("___%d\n", element);
+#endif // DEBUG
+
+		if (queue_contains(data_union, element, DESC) == FALSE)
+		{
+			queue_push(difference, element);
+		}
+	}
+	queue_reset_next_index(model->notes_out);
+	queue_reset_next_index(difference);
+	while (queue_next_not_empty(difference) == TRUE)
+	{
+		queue_push(data_union, queue_next(difference));
+	}
+
+	queue_reset_next_index(difference);
+	queue_reset_next_index(data_union);
+
+#ifdef DEBUG
+	printf("-----UNION-----\n");
+	printf("1st set:\n");
+	queue_print(model->notes_in);
+	printf("\n2nd set:\n");
+	queue_print(model->notes_out);
+	printf("\nUnion:\n");
+	queue_print(data_union);
+	printf("\n---------------\n");
+#endif // DEBUG
+
+	reti = queue_count(data_union);
+	queue_delete(data_union);
+	queue_delete(difference);
+
 	return reti;
 }

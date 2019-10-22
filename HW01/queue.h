@@ -50,6 +50,11 @@ struct Queue
 	///Maximal length of queue
 	///</summary>
 	int length;
+
+	///<summary>
+	///Index of data for "next" function
+	///</summary>
+	int next_head;
 };
 
 ///<summary>
@@ -111,8 +116,41 @@ int queue_at(queue_t* queue, int index);
 ///Checks, whether there is at least one element in queue
 ///</summary>
 ///<param name="queue">Queue which will be checked</param>
-///<returns><c>TRUE</c> if there is next element, <c>FALSE</c> otherwise</returns>
-bool queue_has_next(queue_t* queue);
+///<returns><c>TRUE</c> if there is any element, <c>FALSE</c> otherwise</returns>
+bool queue_is_not_empty(queue_t* queue);
+
+///<summary>
+/// Gets data from queue without removing it
+///</summary>
+///<param name="queue">Queue with data</param>
+///<returns>Selected data or <c>NULL</c></returns>
+int queue_next(queue_t* queue);
+
+///<summary>
+/// Checks, whether there is some data for "next" function
+///</summary>
+///<param name="queue">Queue which will be checked</param>
+///<returns><c>TRUE</c> if there is at least one element, <c>FALSE</c> otherwise</returns>
+bool queue_next_not_empty(queue_t* queue);
+
+///<summary>
+///Resets index of "next" function
+///</summary>
+///<param name="queue">Queue which next index will be reseted</param>
+void queue_reset_next_index(queue_t* queue);
+
+///<summary>
+///Reverses data in queue
+///</summary>
+///<param name="queue">Queue, which data will be copied reversed</param>
+///<returns>New queue with reversed data</returns>
+queue_t* queue_reverse_data(queue_t* queue);
+
+///<summary>
+///Deletes all data associated with queue
+///</summary>
+///<param name="queue">Queue which will be deleted</param>
+void queue_delete(queue_t* queue);
 
 #ifdef DEBUG
 ///<summary>
@@ -130,4 +168,41 @@ void queue_print(queue_t* queue);
 ///<param name="sort">Flag of sortation of data in queue</param>
 ///<returns><c>TRUE</c> if queue contains element, <c>FALSE</c> otherwise</returns>
 bool queue_contains(queue_t* queue, int element, sort_t sort);
+
+///<summary>
+///Checks, whether queue contains element using binar search
+///</summary>
+///<param name="queue">Queue where will be element searched</param>
+///<param name="element">Element, which will be searched</param>
+///<param name="sort">Flag of sortation of data in queue</param>
+///<returns><c>TRUE</c> if queue contains element, <c>FALSE</c> otherwise</returns>
+bool queue_binary_search(queue_t* queue, int element, sort_t sort);
+
+///<summary>
+///Recursive implementation of binary search
+///</summary>
+///<param name="queue">Queue with data</param>
+///<param name="element">Searched element</param>
+///<param name="sort">Flag of sortation of data in queue</param>
+///<param name="start_index">Start of actually searched interval of indexes</param>
+///<param name="end_index">End of actually searched interval of indexes</param>
+///<returns><c>TRUE</c> if queue contains element, <c>FALSE</c> otherwise</returns>
+bool queue_binary_search_recursive(queue_t* queue, int element, sort_t sort, int start_index, int end_index);
+
+///<summary>
+/// Computes next index between indexes
+///</summary>
+///<param name="start_index">Starting index</param>
+///<param name="end_index">Ending index</param>
+///<param name="queue">Queue with data</param>
+///<returns>Computed index between two indexes or <c>-1</c> if there is no such an index
+int queue_binary_search_next_index(int start_index, int end_index, queue_t* queue);
+
+///<summary>
+///Checks, whether there is index in queue data
+///</summary>
+///<param name="index">Index which will be checked</param>
+///<param name="queue">Queue with data</param>
+///<returns><c>TRUE</c> If there are data with index in queue, <c>FALSE</c> otherwise
+bool queue_index_in_queue(int index, queue_t* queue);
 

@@ -30,7 +30,7 @@
 ///<remarks>
 /// If not defined, SAFE MODE is turned off
 ///</remarks>
-#define SAFE_MODE
+//#define SAFE_MODE
 
 
 ///<summary>
@@ -44,7 +44,7 @@
 ///<remarks>
 ///If not defined, messages will be NOT printed
 ///</remarks>
-#define DEBUG
+//#define DEBUG
 
 ///<summary>
 ///Defines maximal length of input
@@ -52,5 +52,5 @@
 ///<remarks>
 ///It has no effect, when SAFE MODE is turned off
 ///</remarks>
-#define INPUT_BUFFER_SIZE 32
+//#define INPUT_BUFFER_SIZE 32
 

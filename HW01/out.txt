@@ -1,0 +1,43 @@
+Loaded values:: maximal width: 8, count: 5
+Loaded sticky note[1]:: distance from left: 2, width: 2, height: 3
+Checking new sticky note from outside
+0 added to queue
+Loaded sticky note[2]:: distance from left: 6, width: 2, height: 2
+Checking new sticky note from outside
+1 added to queue
+Loaded sticky note[3]:: distance from left: 3, width: 2, height: 3
+Checking new sticky note from outside
+2 added to queue
+Loaded sticky note[4]:: distance from left: 3, width: 2, height: 2
+Checking new sticky note from outside
+Loaded sticky note[5]:: distance from left: 0, width: 3, height: 2
+Checking new sticky note from outside
+4 added to queue
+Checking new sticky note from inside
+4 added to queue
+Checking new sticky note from inside
+3 added to queue
+Checking new sticky note from inside
+2 added to queue
+Checking new sticky note from inside
+1 added to queue
+Checking new sticky note from inside
+0 added to queue
+( 0 2 4) f:2, s:4 [0 2 0]
+( 2 3 4) f:4, s:4 [2 4 0]
+( 0 2 4) f:2, s:3 [0 2 0]
+( 2 3 4) f:4, s:3 [2 4 0]
+( 2 2 3) f:2, s:3 [2 2 4]
+( 0 2 4) f:2, s:2 [0 2 0]
+( 0 2 4) f:2, s:1 [0 2 0]
+( 0 1 2) f:1, s:1 [0 1 2]
+( 0 2 4) f:2, s:0 [0 2 0]
+( 0 1 2) f:1, s:0 [0 1 2]
+( 0 0 1) f:0, s:0 [0 0 1]
+visible_out: 4
+visible_in: 5
+visible_both: 4
+visibile_one:5
+unvisible: -4
+===
+4 1 0
