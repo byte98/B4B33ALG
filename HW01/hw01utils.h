@@ -20,6 +20,9 @@
 #pragma once
 
 #include "structures.h"
+#include "simple_bool.h"
+
+
 
 ///<summary>
 /// Function to check changes from outside after adding new sticky note
@@ -42,3 +45,32 @@ void check_inside_situation(model_t* model, sticky_note_t* note, result_t* resul
 ///</summary>
 ///<param name="result">Result which data will be printed</param>
 void print_result(result_t* result);
+
+///<summary>
+///Checks, how many notes are visible from both sides
+///</summary>
+///<param name="model">Model describing final situation of problem</param>
+///<returns>Count of notes visible from both sides</returns>
+int check_visible_both(model_t* model);
+
+///<summary>
+///Defines maximum from two values
+///</summary>
+///<param name="a">First value in comparison</param>
+///<param name="b">Second value in comparison</param>
+///<returns>Maximum of two values</returns>
+#define MAX(a, b) (((a) > (b))? (a) : (b))
+
+///<summary>
+///Defines minimum from two values
+///</summary>
+///<param name="a">First value in comparison</param>
+///<param name="b">Second value in comparison</param>
+///<returns>Minimum of two values</returns>
+#define MIN(a, b) (((a) < (b))? (a) : (b))
+
+///<summary>
+///Prints model of situation
+///</summary>
+///<param name="model">Model of the situation
+//void print_model(model_t* model); !!!NOT IMPLEMENTED YET!!!

@@ -18,16 +18,9 @@
 /// limitations under the License.
 ///</remarks>
 #pragma once
+#include "queue.h"
 
-///<summary>
-///Define <c>TRUE</c> as some non-zero value (here 1)
-///</summary>
-#define TRUE 1
 
-///<summary>
-///Define <c>FALSE</c> as zero value
-///</summary>
-#define FALSE 0
 
 
 
@@ -38,6 +31,11 @@
 ///</summary>
 struct StickyNote
 {
+	///<summary>
+	/// Defines unique identifier of sticky note in system
+	///</summary>
+	int id;
+
 	///<summary>
 	/// Width of sticky note
 	///</summary>
@@ -77,6 +75,11 @@ struct Result
 	int visible_both;
 
 	///<summary>
+	/// Number of sticky notes visible from one side only
+	///</summary>
+	int visible_one;
+
+	///<summary>
 	/// Number of sticky notes which are not visible at all
 	///</summary>
 	int unvisible;
@@ -97,15 +100,32 @@ struct Model
 	///Describes situation from inside
 	///</summary>
 	int* situation_in;
+
+	///<summary>
+	/// Width of model
+	///</summary>
+	int width;
+
+	///<summary>
+	///Height of model
+	///</summary>
+	int height;
+
+	///<summary>
+	///List of notes visible from outsied
+	///</summary>
+	queue_t* notes_out;
+
+	///<summary>
+	///List of notes visible from inside
+	///</summary>
+	queue_t* notes_in;
 };
 
 
 
 /* === DATA TYPES DEFINITIONS === */
-///<summary>
-///Simple definition of something like a "boolean"
-///</summary>
-typedef char bool;
+
 
 
 

@@ -16,6 +16,9 @@
     <Filter Include="Build">
       <UniqueIdentifier>{4c4b426e-a1e2-4ad6-be1a-f46fc38b5894}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{b72ecae9-10f4-4e7b-9191-2b34e249fce4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Makefile">
@@ -27,6 +30,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="hw01utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="queue.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -94,6 +100,9 @@
     <None Include="run.sh">
       <Filter>Build</Filter>
     </None>
+    <None Include="test.sh">
+      <Filter>Debug</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h">
@@ -103,6 +112,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="hw01utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="queue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="simple_bool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sorted.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

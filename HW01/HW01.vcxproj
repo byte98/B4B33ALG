@@ -128,6 +128,7 @@
   <ItemGroup>
     <ClCompile Include="hw01.c" />
     <ClCompile Include="hw01utils.c" />
+    <ClCompile Include="queue.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="datapub\pub01.in" />
@@ -151,10 +152,14 @@
     <None Include="datapub\pub10.in" />
     <None Include="datapub\pub10.out" />
     <None Include="run.sh" />
+    <None Include="test.sh" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />
     <ClInclude Include="hw01utils.h" />
+    <ClInclude Include="queue.h" />
+    <ClInclude Include="simple_bool.h" />
+    <ClInclude Include="sorted.h" />
     <ClInclude Include="structures.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
