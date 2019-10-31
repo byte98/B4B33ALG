@@ -1,6 +1,5 @@
 ///<summary>
-/// File containig configuration which can change run of program
-/// which is first homework for subject B4B33ALG - Algorithms
+/// File containig simple definition of bool used in this project
 ///</summary>
 ///<remarks>
 /// Copyright 2019 Jiri Skoda <skodaji4@fel.cvut.cz>
@@ -20,37 +19,16 @@
 #pragma once
 
 ///<summary>
-///SAFE MODE sets, if program should check inputs and errors or not
+///Define <c>TRUE</c> as some non-zero value (here 1)
 ///</summary>
-///<example> For turn on SAFE MODE:
-///<code>
-///#define SAFE_MODE
-///</code>
-///</example>
-///<remarks>
-/// If not defined, SAFE MODE is turned off
-///</remarks>
-#define SAFE_MODE
-
+#define TRUE 1
 
 ///<summary>
-///Sets, if program prints debug messages or not
+///Define <c>FALSE</c> as zero value
 ///</summary>
-///<example> For show debug messages:
-///<code>
-///#define DEBUG
-///</code>
-///</example>
-///<remarks>
-///If not defined, messages will be NOT printed
-///</remarks>
-#define DEBUG
+#define FALSE 0
 
 ///<summary>
-///Defines maximal length of input
+///Simple definition of something like a "boolean"
 ///</summary>
-///<remarks>
-///It has no effect, when SAFE MODE is turned off
-///</remarks>
-#define INPUT_BUFFER_SIZE 32
-
+typedef char bool;
