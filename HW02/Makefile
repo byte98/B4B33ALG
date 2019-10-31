@@ -3,7 +3,7 @@ CFLAGS+=-Wall
 all: program
 
 program: main.o experiment.o utils.o laboratory.o queue.o dynamic_queue.o
-	$(COMPILER) $(CFLAGS) ./obj/utils.o ./obj/queue.o ./obj/dynamic_queue.o ./obj/laboratory.o ./obj/experiment.o ./obj/main.o  -o ./program
+	$(COMPILER) $(CFLAGS) -lm ./obj/utils.o ./obj/queue.o ./obj/dynamic_queue.o ./obj/laboratory.o ./obj/experiment.o ./obj/main.o  -o ./program
 
 obj:
 	mkdir ./obj
@@ -18,7 +18,7 @@ utils.o: obj utils.c
 	$(COMPILER) $(CFLAGS) -c ./utils.c -o ./obj/utils.o
 
 laboratory.o: obj laboratory.c
-	$(COMPILER) $(CFLAGS) -c ./laboratory.c -o ./obj/laboratory.o
+	$(COMPILER) $(CFLAGS) -c -lm ./laboratory.c -o ./obj/laboratory.o
 
 queue.o: obj queue.c
 	$(COMPILER) $(CFLAGS) -c ./queue.c -o ./obj/queue.o

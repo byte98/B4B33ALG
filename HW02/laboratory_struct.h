@@ -9,6 +9,7 @@ struct Laboratory
 	experiment_t** experiments_available;
 	queue_t* experiment_unused;
 
+	int maximal_income;
 	int days_claimed;
 	int total_income;
 };

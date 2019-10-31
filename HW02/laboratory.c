@@ -3,8 +3,14 @@
 #include <stdio.h>
 #include "config.h"
 #include "utils.h"
+#include <math.h>
 
 #define LAB_FREE -1
+#define ACCEPT_RATIO 0.001
+
+static volatile int MAX_INCOME = 0;
+static volatile int DAYS_CLAIMED = 0;
+
 
 laboratory_t* laboratory_create(int days_available, int experiments_count, experiment_t** experiments)
 {
@@ -20,9 +26,11 @@ laboratory_t* laboratory_create(int days_available, int experiments_count, exper
 	reti->experiment_unused = queue_create_static(reti->experiments_available_count);
 	reti->total_income = 0;
 	reti->days_claimed = 0;
+	reti->maximal_income = 0;
 	for (int i = 0; i < reti->experiments_available_count; i++)
 	{
 		queue_push(reti->experiment_unused, experiments[i]);
+		reti->maximal_income += experiments[i]->income;
 	}
 
 	return reti;
@@ -41,6 +49,7 @@ laboratory_t* laboratory_copy(laboratory_t* laboratory)
 	reti->experiments_available = laboratory->experiments_available;
 	reti->total_income = laboratory->total_income;
 	reti->days_claimed = laboratory->days_claimed;
+	reti->maximal_income = laboratory->maximal_income;
 	reti->experiment_unused = queue_create_static(queue_count(laboratory->experiment_unused));
 	while (queue_next_not_empty(laboratory->experiment_unused) == TRUE)
 	{
@@ -203,7 +212,6 @@ dyn_queue_t* laboratory_experiment_scheduler(laboratory_t* laboratory, experimen
 			laboratory_schedule_experiment(new_lab, experiment, i);
 #ifdef DEBUG
 			printf("start experiment: %d, at: %d ($%d)\n", experiment->id, i, experiment->income);
-			printf("$$$%d\n", new_lab->total_income);
 #endif // DEBUG
 			dyn_queue_push(reti, new_lab);
 
@@ -222,12 +230,29 @@ void laboratory_scheduler(laboratory_t* laboratory)
 		dyn_queue_t* tmp_states = dyn_queue_copy(all_states);
 		while (dyn_queue_is_empty(tmp_states) == FALSE)
 		{
-			dyn_queue_t* exp_scheduled = laboratory_experiment_scheduler(dyn_queue_pop(tmp_states), exp, 0);
+			laboratory_t* tmp_lab = dyn_queue_pop(tmp_states);
+			dyn_queue_t* exp_scheduled = laboratory_experiment_scheduler(tmp_lab, exp, 0);
 			while (dyn_queue_is_empty(exp_scheduled) == FALSE)
 			{
-				dyn_queue_push(all_states, dyn_queue_pop(exp_scheduled));
+				laboratory_t* res = dyn_queue_pop(exp_scheduled);
+#ifdef DEBUG
+				printf("maximal income: %d, income: %d\n", res->maximal_income, res->total_income);
+#endif // DEBUG
+
+				if (res->total_income > tmp_lab->total_income && res->total_income > MAX_INCOME * pow(((float)ACCEPT_RATIO),(float)((float)res->experiments_available_count - (float)res->experiment_unused->count)))
+				{
+					dyn_queue_push(all_states, res);
+					if (res->total_income > MAX_INCOME)
+					{
+						MAX_INCOME = res->total_income;
+						DAYS_CLAIMED = res->days_claimed;
+					}
+
+				}
+
 			}
 			dyn_queue_delete(exp_scheduled);
+			
 		}
 		dyn_queue_delete(tmp_states);
 		
@@ -244,7 +269,7 @@ void laboratory_scheduler(laboratory_t* laboratory)
 	}
 	dyn_queue_delete(all_states);
 #endif // DEBUG
-
+	printf("%d %d\n", MAX_INCOME, DAYS_CLAIMED);
 
 
 }
