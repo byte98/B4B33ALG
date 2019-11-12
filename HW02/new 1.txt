@@ -1,0 +1,23 @@
+struct sigaction action;
+memset(&action, 0, sizeof(struct sigaction));
+action.sa_handler = term;
+sigaction(SIGTERM, &action, NULL);
+int fd[2];
+int t = 0;
+int pipe_res = pipe(fd);
+if (pipe_res)
+{
+	fprintf(stderr, "Pipe error!\n");
+	return EXIT_SYSCALL;
+}
+int gen_pid = fork();
+if (gen_pid < 0)
+{
+	fprintf(stderr, "Fork error!\n");
+	return EXIT_SYSCALL;
+	}
+if (pid == 0)
+{
+	//Here goes GEN code
+}
+int nsd_pid = fork();
