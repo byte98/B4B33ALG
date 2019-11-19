@@ -1,4 +1,4 @@
-///<summary>
+﻿///<summary>
 /// File containing main program of third homework
 ///</summary>
 ///<remarks>
@@ -19,52 +19,86 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 #include "node.h"
+#include "plane.h"
+#include "hw03utils.h"
+#include "config.h"
 
-void print_int(void* data)
-{
-	int d = *(int*)data;
-	printf("%d", d);
-}
+///<summary>
+/// Stores count of planes stored in tree
+///</summary>
+volatile static int COUNT = 0;
 
-void delete_int(void* data)
-{
-	int d = *(int*)data;
-	printf("%d deleted\n", d);
-}
+///<summary>
+///Stores wight of one pilot figurine
+///</summary>
+volatile static int WEIGHT = 0;
 
 ///<summary>
 ///Entry function of program
 ///</summary>
 ///<param name="argc">Count of arguments</param>
 ///<param name="argv">Arguments of program</param>
-///<returns>0 if finished successfully, something different otherwise
+///<returns>0 if finished successfully, something different otherwise</returns>
 int main(int argc, char* argv[])
 {
 	int reti = EXIT_SUCCESS;
-	int data = 3;
-	int* d = &data;
-	node_t* n = node_create(d, delete_int);
 
-	int data2 = 13;
-	int* d2 = &data2;
-	node_t* n2 = node_create(d2, delete_int);
+	scanf("%i %i", &COUNT, &WEIGHT);
+#ifdef DEBUG
+	printf("Loaded data:: count: %d, weight of pilot: %d\n", COUNT, WEIGHT);
+#endif // DEBUG
+	
+	plane_t** planes = (plane_t**)malloc(COUNT * sizeof(plane_t*));
 
-	int data3 = 103;
-	int* d3 = &data3;
-	node_t* n3 = node_create(d3, delete_int);
+	
 
-	int data4 = 203;
-	int* d4 = &data4;
-	node_t* n4 = node_create(d4, delete_int);
+	for (int i = 0; i < COUNT; i++)
+	{
+		int weight = -1;
+		scanf("%i", &weight);
+		planes[i] = plane_create(weight);
+#ifdef DEBUG
+		printf("Loaded plane:: id: %d, weight: %d\n", plane_get_identifier(planes[i]), plane_get_weight(planes[i]));
+#endif // DEBUG			
+	}
 
-	node_set_parent(n2, n, LEFT);
-	node_set_left_child(n2, n3);
-	node_set_right_child(n2, n4);
+	//Create tree from planes
+	node_t* root = utils_create_tree(planes, 0, (COUNT - 1));
 
-	node_print(n2, print_int);
+#ifdef DEBUG
+	utils_print_tree(root);
+	printf("Leaves: %d\n", node_count_leaves(root));
+#endif // DEBUG
 
+	int result = utils_count_whole_difference(root);
+#ifdef DEBUG
+	printf("Sum of differences in tree: %d\n", result);
+#endif // DEBUG
+
+
+	for (int i = 0; i < PILOTS; i++)
+	{
+		utils_place_pilot(root, WEIGHT);
+	}
+
+#ifdef DEBUG
+	utils_set_evaluator(root);
+	node_print_tree_nodes_evaluation(root);
+#endif // DEBUG
+
+
+	int result_pilot = utils_count_whole_difference(root);
+
+
+	for (int i = 0; i < COUNT; i++)
+	{
+		plane_delete(planes[i]);
+	}
+	
+	printf("%d %d\n", result, result_pilot);
 
 	return reti;
 }

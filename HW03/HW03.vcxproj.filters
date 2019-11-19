@@ -100,12 +100,21 @@
     <ClInclude Include="config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="hw03utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="hw03.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="node.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="plane.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hw03utils.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

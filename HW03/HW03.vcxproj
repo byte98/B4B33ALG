@@ -150,13 +150,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />
+    <ClInclude Include="hw03utils.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="plane.h" />
     <ClInclude Include="simple_bool.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="hw03.c" />
+    <ClCompile Include="hw03utils.c" />
     <ClCompile Include="node.c" />
+    <ClCompile Include="plane.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

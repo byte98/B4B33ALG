@@ -30,5 +30,10 @@
 ///<remarks>
 ///If not defined, messages will be NOT printed
 ///</remarks>
-#define DEBUG
+//#define DEBUG
+
+///<summary>
+///Sets count of pilots which will be placed in tree
+///</summary>
+#define PILOTS 2
 

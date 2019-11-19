@@ -37,6 +37,7 @@ node_t* node_create_empty()
 		reti->left_child = node_NULL;
 		reti->right_child = node_NULL;
 		reti->parent = node_NULL;
+		reti->evaluator = node_default_evaluator;
 	}
 	return reti;
 }
@@ -55,6 +56,7 @@ node_t* node_create(void* data, void(*delete)(void*))
 		reti->left_child = node_NULL;
 		reti->parent = node_NULL;
 		reti->right_child = node_NULL;
+		reti->evaluator = node_default_evaluator;
 	}
 	return reti;
 }
@@ -193,6 +195,7 @@ bool node_set_left_child(node_t* node, node_t* left_child)
 	{
 		reti = TRUE;
 		node->left_child = left_child;
+		node->left_child->parent = node;
 	}
 	return reti;
 }
@@ -213,6 +216,7 @@ bool node_set_right_child(node_t* node, node_t* right_child)
 	{
 		reti = TRUE;
 		node->right_child = right_child;
+		node->right_child->parent = node;
 	}
 	return reti;
 }
@@ -254,6 +258,14 @@ bool node_set_data(node_t* node, void* data, void(*delete)(void*))
 		node->delete = delete;
 	}
 	return reti;
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------
+
+void node_set_data_force(node_t* node, void* data, void(*delete)(void*))
+{
+	node->data = data;
+	node->delete = delete;
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------
@@ -323,6 +335,100 @@ bool node_has_parent(node_t* node)
 
 //-------------------------------------------------------------------------------------------------------------------------------
 
+bool node_is_leaf(node_t* node)
+{
+	return (node_check_null(node_get_left_child(node)) == TRUE && node_check_null(node_get_right_child(node)) == TRUE ? TRUE : FALSE);
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------
+
+void node_set_evaluator(node_t* node, int(*evaluate)(node_t*))
+{
+	node->evaluator = evaluate;
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------
+
+int node_evaluate(node_t* node)
+{
+	return (node->evaluator(node));
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------
+
+int node_default_evaluator(node_t* node)
+{
+	return node_get_identifier(node);
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------
+
+void node_delete_tree(node_t* node)
+{
+	if (node_is_leaf == TRUE)
+	{
+		node_delete(node);
+		return;
+	}
+	else
+	{
+		node_delete_tree(node_get_right_child(node));
+		node_delete_tree(node_get_left_child(node));
+	}
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------
+
+int node_count_leaves(node_t* node)
+{
+	int reti = 0;
+	if (node_is_leaf(node) == TRUE)
+	{
+		reti += 1;
+	}
+	else
+	{
+		reti += node_count_leaves(node_get_left_child(node));
+		reti += node_count_leaves(node_get_right_child(node));
+	}
+	return reti;
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------
+
+static int node_find_leaves_index = 0;
+void node_get_leaves(node_t* node, node_t** result)
+{
+	int count = node_count_leaves(node);
+	result = realloc(result, count * sizeof(node_t*));
+	node_find_leaves_index = 0;
+	node_find_leaves(node, result);
+
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------
+
+void node_find_leaves(node_t* node, node_t** result)
+{
+	if (node_is_leaf(node) == TRUE)
+	{
+		result[node_find_leaves_index] = node;
+		node_find_leaves_index++;
+#ifdef DEBUG
+		printf("Node %d is leafe\n", node_get_identifier(node));
+#endif // DEBUG
+
+		return;
+	}
+	else
+	{
+		node_find_leaves(node_get_right_child(node), result);
+		node_find_leaves(node_get_left_child(node), result);
+	}
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------
+
 #ifdef DEBUG
 void node_print(node_t* node, void(*print)(void*))
 {
@@ -340,6 +446,27 @@ void node_print(node_t* node, void(*print)(void*))
 	printf(" - data:");
 	print(node_get_data(node));
 	printf("\n");
+}
+
+void node_print_tree_nodes_evaluation(node_t* node)
+{
+	printf("[%d]: %d\n", node_get_identifier(node), node_evaluate(node));
+	if (node_is_leaf(node))
+	{
+		return;
+	}
+	else
+	{
+		if (node_has_left_child(node) == TRUE)
+		{
+			node_print_tree_nodes_evaluation(node_get_left_child(node));
+		}
+		if (node_has_right_child(node) == TRUE)
+		{
+			node_print_tree_nodes_evaluation(node_get_right_child(node));
+		}
+
+	}
 }
 #endif // DEBUG
 

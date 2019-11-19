@@ -57,6 +57,11 @@ struct Node
 	///Function which can delete data from node
 	///</summary>
 	void (*delete)(void*);
+
+	///<summary>
+	///Function which can get integer from node
+	///</summary>
+	int (*evaluator)(struct Node*);
 };
 
 ///<summary>
@@ -171,7 +176,7 @@ node_t* node_get_child(node_t* node, node_child_t position);
 ///</summary>
 ///<param name="node">Node, which left child will be set</param>
 ///<param name="left_child">Node which will be set as left child</param>
-///<returns><c>TRUE</c> if child has been successfully set, <c>FALSE</c> otherwise
+///<returns><c>TRUE</c> if child has been successfully set, <c>FALSE</c> otherwise</returns>
 bool node_set_left_child(node_t* node, node_t* left_child);
 
 ///<summary>
@@ -186,7 +191,7 @@ node_t* node_get_left_child(node_t* node);
 ///</summary>
 ///<param name="node">Node, which right child will be set</param>
 ///<param name="right_child">Node which will be set as right child</param>
-///<returns><c>TRUE</c> if child has been successfully set, <c>FALSE</c> otherwise
+///<returns><c>TRUE</c> if child has been successfully set, <c>FALSE</c> otherwise</returns>
 bool node_set_right_child(node_t* node, node_t* right_child);
 
 ///<summary>
@@ -207,7 +212,7 @@ int node_get_identifier(node_t* node);
 ///Gets data stored in node
 ///</summary>
 ///<param name="node">Node, which data will be returned</param>
-///<returns>Data stored in node or <c>NULL</c>
+///<returns>Data stored in node or <c>NULL</c></returns>
 void* node_get_data(node_t* node);
 
 ///<summary>
@@ -218,6 +223,14 @@ void* node_get_data(node_t* node);
 ///<param name="delete">Function, which can delete data</param>
 ///<returns><c>TRUE</c> if setting of data has been successfull, <c>FALSE</c> otherwise</returns>
 bool node_set_data(node_t* node, void* data, void(*delete)(void*));
+
+///<summary>
+///Sets data stored in node
+///</summary>
+///<param name="node">Node, which data will be returned</param>
+///<param name="data">Data which will be stored in node</param>
+///<param name="delete">Function, which can delete data</param>
+void node_set_data_force(node_t* node, void* data, void(*delete)(void*));
 
 ///<summary>
 ///Checks, whether nodes are same
@@ -271,11 +284,74 @@ bool node_has_child(node_t* node);
 bool node_has_parent(node_t* node);
 
 ///<summary>
+///Checks, whether node is leaf of tree
+///</summary>
+///<param name="node">Node which will be checked</param>
+///<returns><c>TRUE</c> if node is leaf of tree, <c>FALSE</c> otherwise</returns>
+bool node_is_leaf(node_t* node);
+
+///<summary>
+///Sets function which can return integer from node
+///</summary>
+///<param name="node">Node which function will be defined</param>
+///<param name="evaluator">Function which can get integer from node</param>
+void node_set_evaluator(node_t* node, int(*evaluate)(node_t*));
+
+///<summary>
+///Default node evaluator
+///</summary>
+///<param name="node">Node which will be evaluated</param>
+///<returns>Identifier of node</returns>
+int node_default_evaluator(node_t* node);
+
+///<summary>
+///Gets integer from node
+///</summary>
+///<param name="node">Node which integer will be computed</param>
+///<returns>Integer computed from node</returns>
+int node_evaluate(node_t* node);
+
+///<summary>
+///Deletes tree defined by node
+///</summary>
+///<param name="node">Node which is root of tree which will be deleted</param>
+void node_delete_tree(node_t* node);
+
+///<summary>
+///Counts leaves in tree
+///</summary>
+///<param name="node">Node which is root of tree which leavs will be counted</param>
+///<returns>Count of leaves</returns>
+int node_count_leaves(node_t* node);
+
+///<summary>
+///Gets leaves from tree
+///</summary>
+///<param name="node">Node which is root of tree which leaves will be returned</param>
+///<param name="result">Array, where will be stored results</param>
+void node_get_leaves(node_t* node, node_t** result);
+
+///<summary>
+///Recursive function to find leaves in tree
+///!!!THIS FUNCTION SHOULDN'T BE CALLED ALONE!!!
+///</summary>
+///<param name="node">Node which is root of tree which leaves will be found</param>
+///<param name="result">Array, where will be stored results</param>
+void node_find_leaves(node_t* node, node_t** result);
+
+
+#ifdef DEBUG
+///<summary>
 ///Prints information about node
 ///</summary>
 ///<param name="node">Node which information will be printed</param>
 ///<param name="print">Function which can print data</param>
-#ifdef DEBUG
 void node_print(node_t* node, void(*print)(void*));
+
+///<summary>
+///Prints nodes with its evaluation
+///</summary>
+///<param name="node">Node which evaluation will be printed</param>
+void node_print_tree_nodes_evaluation(node_t* node);
 #endif // DEBUG
 #endif // ! __NODE_H__

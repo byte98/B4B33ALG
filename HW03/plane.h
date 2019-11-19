@@ -31,6 +31,11 @@ struct Plane
 	///Weight of plane
 	///</summary>
 	int weight;
+
+	///<summary>
+	///Sets whether there is pilot in plane
+	///</summary>
+	bool pl_has_pilot;
 };
 
 ///<summary>
@@ -41,7 +46,7 @@ typedef struct Plane plane_t;
 ///<summary>
 ///Stores last used identifier of plane
 ///</summary>
-static volatile int PLANE_LAST_ID = -1;
+static volatile int plane_LAST_ID = -1;
 
 ///<summary>
 ///Defines <c>NULL</c> plane
@@ -58,7 +63,7 @@ plane_t* plane_create_empty();
 ///Creates plane with defined weight
 ///</summary>
 ///<param name="weight">Weight of plane</param>
-///<returns>New plane with defined weitgh or <c>NULL</c> if allocating space for plane failed
+///<returns>New plane with defined weitgh or <c>NULL</c> if allocating space for plane failed</returns>
 plane_t* plane_create(int weight);
 
 ///<summary>
@@ -68,6 +73,12 @@ plane_t* plane_create(int weight);
 void plane_delete(plane_t* plane);
 
 ///<summary>
+///Generally deletes plane and all data used by plane
+///</summary>
+///<param name="data">Pointer to where is plane stored</param>
+void plane_deleter(void* data);
+
+///<summary>
 ///Checks, whether planes are same
 ///</summary>
 ///<param name="plane1">First plane to be compared</param>
@@ -75,7 +86,40 @@ void plane_delete(plane_t* plane);
 ///<returns><c>TRUE</c> if they are same, <c>FALSE</c> otherwise</returns>
 bool plane_check_same(plane_t* plane1, plane_t* plane2);
 
+///<summary>
+///Gets weight of plane
+///</summary>
+///<param name="plane">Plane which weight will be returned</param>
+///<returns>Weight of plane</returns>
+int plane_get_weight(plane_t* plane);
 
+///<summary>
+///Gets identifier of plane
+///</summary>
+///<param name="plane">Plane which identifier will be returned</param>
+///<returns>Identifier of plane</returns>
+int plane_get_identifier(plane_t* plane);
+
+///<summary>
+///Sets pilot to plane
+///</summary>
+///<param name="plane">Plane to which will be pilot set</param>
+///<param name="weight">Weight of pilot</param>
+void plane_set_pilot(plane_t* plane, int weight);
+
+///<summary>
+///Checks, whether there is a pilot in a plane
+///</summary>
+///<param name="plane">Plane to be checked</param>
+///<returns><c>TRUE</c>if there is pilot, <c>FALSE</c> otherwise</returns>
+bool plane_get_has_pilot(plane_t* plane);
+
+///<summary>
+///Removes pilot from plane
+///</summary>
+///<param name="plane">Plane from which will be pilot removed</param>
+///<param name="weight">Weight of pilot</param>
+void plane_unset_pilot(plane_t* plane, int weight);
 
 
 
