@@ -715,7 +715,6 @@ int utils_situation_exact_comparator(void* situationA, void* situationB)
 #ifdef SHOW_MAP
 void utils_display_map(point_t* point)
 {
-	printf("\033[2J");
 	printf("\033[H");
 	for (int r = 0; r < ROWS; r++)
 	{

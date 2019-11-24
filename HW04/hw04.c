@@ -125,6 +125,7 @@ int main(int argc, char* argv[])
 	situation_t* actual = utils_create_situation(utils_create_point(0, 0), E_init, 0);
 	utils_check_position(actual);
 #ifdef SHOW_MAP
+	printf("\033[2J");
 	utils_display_map(actual->point);
 #endif // SHOW_MAP
 
