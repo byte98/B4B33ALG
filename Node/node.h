@@ -146,6 +146,14 @@ bool node_is_empty(node_t* node);
 bool node_set_parent(node_t* node, node_t* parent, node_child_t child);
 
 ///<summary>
+///Sets parential node of node with overwriting current one
+///</summary>
+///<param name="node">Node, which parent will be set</param>
+///<param name="parent">Parential node</param>
+///<param name="child">Sets, which child of parent will be this node</param>
+void node_set_parent_F(node_t* node, node_t* parent, node_child_t child);
+
+///<summary>
 ///Gets parent node of node
 ///</summary>
 ///<param name="node">Node which parent will be get</param>
@@ -179,6 +187,13 @@ node_t* node_get_child(node_t* node, node_child_t position);
 bool node_set_left_child(node_t* node, node_t* left_child);
 
 ///<summary>
+///Sets left child of node with overwriting current child
+///</summary>
+///<param name="node">Node, which left child will be set</param>
+///<param name="left_child">Node which will be set as left child</param>
+void node_set_left_child_F(node_t* node, node_t* left_child);
+
+///<summary>
 ///Gets left child of node
 ///</summary>
 ///<param name="node">Node, wchich left child will be get</param>
@@ -192,6 +207,13 @@ node_t* node_get_left_child(node_t* node);
 ///<param name="right_child">Node which will be set as right child</param>
 ///<returns><c>TRUE</c> if child has been successfully set, <c>FALSE</c> otherwise</returns>
 bool node_set_right_child(node_t* node, node_t* right_child);
+
+///<summary>
+///Sets right child of node with overwriting current child
+///</summary>
+///<param name="node">Node, which right child will be set</param>
+///<param name="right_child">Node which will be set as right child</param>
+void node_set_right_child_F(node_t* node, node_t* right_child);
 
 ///<summary>
 ///Gets right child of node

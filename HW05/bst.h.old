@@ -1,0 +1,34 @@
+#ifndef __BST_H__
+#define __BST_H__
+
+#include "simple_bool.h"
+
+#define bst_EMPTY_NODE -1
+
+struct BinarySearchTree
+{
+	int* indexes;
+	int length;
+	int nodes;
+	int root_index;
+	int two_pow;
+};
+typedef struct BinarySearchTree bst_t;
+
+
+void bst_insert(bst_t* tree, int data);
+int bst_find_data(bst_t* tree, int index);
+void bst_delete(bst_t* tree, int data);
+void bst_delete_recursive(bst_t* tree, int index, int data);
+int bst_compute_depth(bst_t* tree);
+int bst_find(bst_t* tree, int data);
+int bst_find_recursive(bst_t* tree, int index, int data);
+int bst_find_higher_power_of_two(int number);
+bst_t* bst_create(int length);
+int bst_left_child_index(bst_t* tree, int parent_index);
+int bst_right_child_index(bst_t* tree, int parent_index);
+void bst_move(bst_t* tree, int original_idx, int new_idx);
+void bst_move_recursive(bst_t* tree, int original_idx, int new_idx, int* new_data);
+bool bst_is_neccessary_consolidation(bst_t* tree, int root_index);
+void bst_upscale(bst_t* tree, int new_size);
+#endif

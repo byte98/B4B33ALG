@@ -14,4 +14,64 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="hw05.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="node.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hw05_utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Makefile" />
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="simple_bool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hw05_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="datapub\pub01.in" />
+    <None Include="datapub\pub01.out" />
+    <None Include="datapub\pub02.in" />
+    <None Include="datapub\pub02.out" />
+    <None Include="datapub\pub03.in" />
+    <None Include="datapub\pub03.out" />
+    <None Include="datapub\pub04.in" />
+    <None Include="datapub\pub04.out" />
+    <None Include="datapub\pub05.in" />
+    <None Include="datapub\pub05.out" />
+    <None Include="datapub\pub06.in" />
+    <None Include="datapub\pub06.out" />
+    <None Include="datapub\pub07.in" />
+    <None Include="datapub\pub07.out" />
+    <None Include="datapub\pub08.in" />
+    <None Include="datapub\pub08.out" />
+    <None Include="datapub\pub09.in" />
+    <None Include="datapub\pub09.out" />
+    <None Include="datapub\pub10.in" />
+    <None Include="datapub\pub10.out" />
+    <None Include="test.sh" />
+    <None Include="bst.c.old" />
+    <None Include="bst.h.old" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Makefile.old" />
+  </ItemGroup>
 </Project>

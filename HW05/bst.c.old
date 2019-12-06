@@ -1,0 +1,426 @@
+#include "bst.h"
+#include <stdlib.h>
+#include <assert.h>
+#include <math.h>
+#include "config.h"
+#include <stdio.h>
+#ifdef max
+#undef max
+#endif // max
+#define max(a, b) ((a)>(b)?(a):(b))
+
+#define bst_LCHILD(x) ((2*(x))+1)
+#define bst_RCHILD(x) ((2*(x))+2)
+/*
+void bst_insert(bst_t* tree, int data)
+{
+	int idx = tree->root_index;
+#ifdef DEBUG
+	printf("Inserting %d to tree...\n", data);
+#endif // DEBUG
+	if (tree->nodes == 0) //Is first node in tree
+	{
+		tree->data[tree->nodes] = data;
+		tree->nodes++;
+#ifdef DEBUG
+		printf("=> inserted to 0 (first node)\n");
+#endif // DEBUG
+
+	}
+	else
+	{
+		bool set = FALSE;
+		do
+		{
+#ifdef DEBUG
+			printf("\tActual index: %d\n", idx);
+#endif // DEBUG
+
+			if (tree->data[idx] == bst_EMPTY_NODE)
+			{
+				tree->data[idx] = data;
+				tree->nodes++;
+				set = TRUE;
+#ifdef DEBUG
+				printf("=> inserted to [%d]\n", idx);
+#endif // DEBUG
+
+			}
+			else if (data > tree->data[idx])
+			{
+#ifdef DEBUG
+				printf("\t\tData > stored (%d > %d) -> going to right subtree [%d]\n", data, tree->data[idx], bst_RCHILD(idx));
+#endif // DEBUG
+				idx = bst_RCHILD(idx);
+			}
+			else if (data <= tree->data[idx])
+			{
+#ifdef DEBUG
+				printf("\t\tData <= stored (%d <= %d) -> going to left subtree [%d]\n", data, tree->data[idx], bst_LCHILD(idx));
+#endif // DEBUG
+				idx = bst_LCHILD(idx);
+			}
+			if (idx > tree->length)
+			{
+				bst_upscale(tree, idx + 1);
+			}
+		} while (set == FALSE);
+
+	}
+
+#ifdef DEBUG
+	for (int i = 0; i < tree->length; i++)
+	{
+		printf("%2d ", tree->data[i]);
+	}
+	printf("\n");
+#endif // DEBUG
+
+
+}
+
+void bst_delete(bst_t* tree, int data)
+{
+	int idx = bst_find(tree, data);
+	if (idx != bst_EMPTY_NODE)
+	{
+		int left_idx = bst_left_child_index(tree, idx);
+		int right_idx = bst_right_child_index(tree, idx);
+		//Is leafe
+		if ((right_idx == bst_EMPTY_NODE && left_idx == bst_EMPTY_NODE) ||
+			(tree->data[right_idx] == bst_EMPTY_NODE && tree->data[left_idx] == bst_EMPTY_NODE))
+		{
+			tree->data[idx] = bst_EMPTY_NODE;
+		}
+		//Has only left child
+		else if
+			(
+			(right_idx == bst_EMPTY_NODE || tree->data[right_idx] == bst_EMPTY_NODE)
+				&&
+				(left_idx != bst_EMPTY_NODE || tree->data[left_idx] != bst_EMPTY_NODE)
+				)
+		{
+			tree->data[idx] = bst_EMPTY_NODE;
+			bst_move(tree, left_idx, idx);
+		}
+		//Has only right child
+		else if
+			(
+			(left_idx == bst_EMPTY_NODE || tree->data[left_idx] == bst_EMPTY_NODE)
+				&&
+				(right_idx != bst_EMPTY_NODE && tree->data[right_idx] != bst_EMPTY_NODE)
+				)
+		{
+			tree->data[idx] = bst_EMPTY_NODE;
+			bst_move(tree, right_idx, idx);
+		}
+		//Has both childs
+		else
+		{
+			int i = 0;
+			int prev_i = 0;
+			//Is in right subtree
+			if (data >= tree->data[tree->root_index])
+			{
+				//Find most left in right subtree
+
+				while (i != bst_EMPTY_NODE)
+				{
+					int left = bst_left_child_index(tree, i);
+					if (tree->data[left] != bst_EMPTY_NODE)
+					{
+						prev_i = i;
+						i = left;
+					}
+				}
+			}
+			//Is in left subtree
+			else
+			{
+				//Find most right in left subtree
+				while (i != bst_EMPTY_NODE)
+				{
+					int right = bst_right_child_index(tree, i);
+					if (tree->data[right] != bst_EMPTY_NODE)
+					{
+						prev_i = i;
+						i = right;
+					}
+				}
+			}
+			bst_move(tree, idx, prev_i);
+		}
+	}
+}
+
+
+int bst_compute_depth(bst_t* tree)
+{
+	return floor(log2(tree->length));	
+}
+
+int bst_find(bst_t* tree, int data)
+{
+	int reti = bst_EMPTY_NODE;
+	reti = bst_find_recursive(tree, tree->root_index, data);
+	return reti;
+}
+
+int bst_find_recursive(bst_t* tree, int index, int data)
+{
+	int reti = bst_EMPTY_NODE;
+	if (tree->data[index] == data)
+	{
+		reti = index;
+	}
+	else if (data > tree->data[index] && bst_right_child_index(tree, index) != bst_EMPTY_NODE)
+	{
+		reti = bst_find_recursive(tree, bst_right_child_index(tree, index), data);
+	}
+	else if (data <= tree->data[index] && bst_left_child_index(tree, index) != bst_EMPTY_NODE)
+	{
+		reti = bst_find_recursive(tree, bst_left_child_index(tree, index), data);
+	}
+	return reti;
+}
+
+int bst_find_higher_power_of_two(int number)
+{
+	int n = 0;
+	while (pow(2, n) < number)
+	{
+		n++;
+	}
+	return n;
+}
+
+bst_t* bst_create(int length)
+{
+	bst_t* reti = NULL;
+	reti = malloc(sizeof(struct BinarySearchTree));
+	assert(reti != NULL);
+	reti->length = pow(2, bst_find_higher_power_of_two(length));
+	reti->nodes = 0;
+	reti->root_index = 0;	
+	reti->data = malloc(reti->length * sizeof(int));
+#ifdef DEBUG
+	printf("Allocating data for %d nodes...\n", reti->length);
+#endif // DEBUG
+
+	assert(reti->data != NULL);
+	for (int i = 0; i < reti->length; i++)
+	{
+		reti->data[i] = bst_EMPTY_NODE;
+	}
+	return reti;
+}
+
+int bst_left_child_index(bst_t* tree, int parent_index)
+{
+	int reti = bst_EMPTY_NODE;
+	int tmp = (2 * parent_index) + 1;
+	if (tmp < tree->length)
+	{
+		reti = tmp;
+	}
+	return reti;
+}
+
+int bst_right_child_index(bst_t* tree, int parent_index)
+{
+	int reti = bst_EMPTY_NODE;
+	int tmp = (2 * parent_index) + 2;
+	if (tmp < tree->length)
+	{
+		reti = tmp;
+	}
+	return reti;
+}
+
+void bst_move(bst_t* tree, int original_idx, int new_idx)
+{
+	if (original_idx >= 0 && original_idx < tree->length && new_idx >= 0 && new_idx < tree->length)
+	{
+		int* new_data = malloc(tree->length * sizeof(int));
+		assert(new_data != NULL);
+		for (int i = 0; i < tree->length; i++)
+		{
+			new_data[i] = tree->data[i];
+		}
+		bst_move_recursive(tree, original_idx, new_idx, new_data);
+		free(tree->data);
+		tree->data = new_data;
+	}
+}
+
+void bst_move_recursive(bst_t* tree, int original_idx, int new_idx, int* new_data)
+{
+	if (original_idx >= tree->length || tree->data[original_idx] == bst_EMPTY_NODE)
+	{
+		return;
+	}
+	new_data[new_idx] = tree->data[original_idx];
+	if (bst_left_child_index(tree, original_idx) != bst_EMPTY_NODE && tree->data[bst_left_child_index(tree, original_idx)] != bst_EMPTY_NODE)
+	{
+		bst_move_recursive(tree, bst_left_child_index(tree, original_idx), bst_left_child_index(tree, new_idx), new_data);
+	}
+	else if (bst_right_child_index(tree, original_idx) != bst_EMPTY_NODE && tree->data[bst_right_child_index(tree, original_idx)] != bst_EMPTY_NODE)
+	{
+		bst_move_recursive(tree, bst_right_child_index(tree, original_idx), bst_right_child_index(tree, new_idx), new_data);
+	}
+	return;
+}
+
+bool bst_is_neccessary_consolidation(bst_t* tree, int root_index)
+{
+	bool reti = TRUE;
+	if ((int)pow(2, bst_compute_depth(tree)) <= ((int)(int)2 * (int)tree->nodes))
+	{
+		reti = FALSE;
+	}
+	return reti;
+}
+
+void bst_upscale(bst_t* tree, int new_size)
+{
+	new_size = pow(2, bst_find_higher_power_of_two(new_size));
+	int* new_data = malloc(new_size * sizeof(int));
+	assert(new_data != NULL);
+#ifdef DEBUG
+	printf("\t\tUpscaling data %d -> %d\n", tree->length, new_size);
+#endif // DEBUG
+
+	for (int i = 0; i < new_size; i++)
+	{
+		new_data[i] = bst_EMPTY_NODE;
+		if (i < tree->length)
+		{
+			new_data[i] = tree->data[i];
+		}
+	}
+	free(tree->data);
+	tree->data = new_data;
+	tree->length = new_size;
+}
+*/
+
+void bst_insert(bst_t * tree, int data)
+{
+#ifdef DEBUG
+	printf("Inserting %d to tree...\n", data);
+#endif // DEBUG
+
+	if (data > tree->length)
+	{
+		bst_upscale(tree, data + 1);
+	}
+	if (tree->nodes == 0) //First node
+	{
+		tree->indexes[data] = 0;
+		tree->nodes++;
+		tree->root_index = data;
+#ifdef DEBUG
+		printf("=> inserted to root %d[%d] (first node)\n", data, tree->indexes[data]);
+#endif // DEBUG
+	}
+	else
+	{
+		int set_idx = bst_find_data(tree, tree->indexes[tree->root_index]);
+		int idx = 0;
+		bool set = FALSE;
+		do
+		{
+			if (set_idx == bst_EMPTY_NODE)
+			{
+				set = TRUE;
+				tree->indexes[data] = idx;
+				tree->nodes++;
+#ifdef DEBUG
+				printf("=> inserted to %d[%d]\n", data, tree->indexes[data]);
+#endif // DEBUG
+
+			}
+			else if (data > set_idx)
+			{
+#ifdef DEBUG
+				printf("\t Data > stored (%d > %d) -> going to right subtree(%d[%d])\n", data, set_idx, bst_RCHILD(tree->indexes[set_idx]), bst_find_data(tree, bst_RCHILD(tree->indexes[set_idx])));
+#endif // DEBUG
+				set_idx = bst_find_data(tree, bst_RCHILD(tree->indexes[set_idx]));
+				idx = bst_RCHILD(tree->indexes[set_idx]);
+			}
+			else if (data <= set_idx)
+			{
+#ifdef DEBUG
+				printf("\t Data <= stored (%d <= %d) -> going to left subtree(%d[%d])\n", data, set_idx, bst_LCHILD(tree->indexes[set_idx]), bst_find_data(tree, bst_LCHILD(tree->indexes[set_idx])));
+#endif // DEBUG
+				set_idx = bst_find_data(tree, bst_LCHILD(tree->indexes[set_idx]));
+				idx = bst_LCHILD(tree->indexes[set_idx]);
+			}
+		} while (set == FALSE);
+	}
+#ifdef DEBUG
+	for (int i = 0; i < tree->length; i++)
+	{
+		printf("[%2i] ", i);
+	}
+	printf("\n");
+	for (int i = 0; i < tree->length; i++)
+	{
+		printf(" %2i  ", tree->indexes[i]);
+	}
+	printf("\n");
+#endif // DEBUG
+
+}
+
+int bst_find_data(bst_t* tree, int index)
+{
+	int reti = bst_EMPTY_NODE;
+	for (int i = 0; i < tree->length; i++)
+	{
+		if (tree->indexes[i] == index)
+		{
+			reti = i;
+			break;
+		}
+	}
+	return reti;
+}
+
+void bst_upscale(bst_t* tree, int new_size)
+{
+	int* new_data = malloc(new_size * sizeof(int));
+	assert(new_data != NULL);
+#ifdef DEBUG
+	printf("\t\tUpscaling data %d -> %d\n", tree->length, new_size);
+#endif // DEBUG
+
+	for (int i = 0; i < new_size; i++)
+	{
+		new_data[i] = bst_EMPTY_NODE;
+		if (i < tree->length)
+		{
+			new_data[i] = tree->indexes[i];
+		}
+	}
+	free(tree->indexes);
+	tree->indexes = new_data;
+	tree->length = new_size;
+}
+
+bst_t* bst_create(int length)
+{
+	bst_t* reti = malloc(sizeof(bst_t));
+	assert(reti != NULL);
+	reti->indexes = malloc(length * sizeof(int));
+	assert(reti->indexes != NULL);
+	reti->length = length;
+	reti->root_index = bst_EMPTY_NODE;
+	reti->nodes = 0;
+	reti->two_pow = 0;
+	for (int i = 0; i < reti->length; i++)
+	{
+		reti->indexes[i] = bst_EMPTY_NODE;
+	}
+	return reti;
+}

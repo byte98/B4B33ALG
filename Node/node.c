@@ -126,6 +126,32 @@ bool node_set_parent(node_t* node, node_t* parent, node_child_t child)
 
 //-------------------------------------------------------------------------------------------------------------------------------
 
+void node_set_parent_F(node_t* node, node_t* parent, node_child_t child)
+{
+	node->parent = parent;
+	if (child == LEFT)
+	{
+		node->parent->left_child = node;
+	}
+	else if (child == RIGHT)
+	{
+		node->parent->right_child = node;
+	}
+	else if (child == ANY)
+	{
+		if (node->parent->left_child == node_NULL)
+		{
+			node->parent->left_child = node;
+		}
+		else
+		{
+			node->parent->right_child = node;
+		}
+	}
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------
+
 node_t* node_get_parent(node_t* node)
 {
 	return node->parent;
@@ -202,6 +228,15 @@ bool node_set_left_child(node_t* node, node_t* left_child)
 
 //-------------------------------------------------------------------------------------------------------------------------------
 
+
+void node_set_left_child_F(node_t* node, node_t* left_child)
+{
+	node->left_child = left_child;
+	node->left_child->parent = node;
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------
+
 node_t* node_get_left_child(node_t* node)
 {
 	return node->left_child;
@@ -220,6 +255,15 @@ bool node_set_right_child(node_t* node, node_t* right_child)
 	}
 	return reti;
 }
+
+//-------------------------------------------------------------------------------------------------------------------------------
+
+void node_set_right_child_F(node_t* node, node_t* right_child)
+{
+	node->left_child = right_child;
+	node->left_child->parent = node;
+}
+
 
 //-------------------------------------------------------------------------------------------------------------------------------
 

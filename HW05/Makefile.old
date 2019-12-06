@@ -1,0 +1,21 @@
+CC=clang
+CFLAGS+=-Wall
+
+program: obj/hw05.o simple_bool.h obj/node.o obj/hw05utils.o
+	$(CC) $(CFLAGS) -lm obj/hw05.o obj/node.o obj/hw05utils.o -o program 
+
+obj/hw05.o: obj hw05.c
+	$(CC) $(CFLAGS) -c -o obj/hw05.o hw05.c
+
+obj/node.o: obj node.c node.h
+	$(CC) $(CFLAGS) -c -o obj/node.o node.c
+
+obj/hw05utils.o: hw05_utils.c hw05_utils.h
+	$(CC) $(CFLAGS) -c -o obj/hw05utils.o hw05_utils.c
+
+obj:
+	mkdir obj
+
+clean:
+	$(RM) -r obj
+	$(RM) program
