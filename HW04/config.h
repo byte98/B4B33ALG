@@ -30,7 +30,7 @@
 ///<remarks>
 ///If not defined, messages will be NOT printed
 ///</remarks>
-//#define DEBUG
+#define DEBUG
 
-#define SHOW_MAP
-#define SHOW_DELAY 200000
+//#define SHOW_MAP
+//#define SHOW_DELAY 200000
