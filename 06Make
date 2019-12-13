@@ -1,8 +1,8 @@
 CXX=g++
 CFLAGS+=-Wall
 
-program: obj/hw06.o obj/globals.o obj/village.o obj/map.o
-	$(CXX) $(CFLAGS) -o program obj/hw06.o obj/globals.o obj/village.o obj/map.o
+program: obj/hw06.o obj/globals.o obj/village.o obj/map.o obj/path.o
+	$(CXX) $(CFLAGS) -o program obj/hw06.o obj/globals.o obj/village.o obj/map.o obj/path.o
 
 obj:
 	mkdir obj
@@ -13,11 +13,14 @@ obj/hw06.o: obj
 obj/globals.o: obj Globals.cpp Globals.hpp
 	$(CXX) $(CFLAGS) -c -o obj/globals.o Globals.cpp
 
-obj/village.o: obj Village.cpp Village.hpp
+obj/village.o: obj Village.cpp Village.hpp Path.cpp
 	$(CXX) $(CFLAGS) -c -o obj/village.o Village.cpp
 
 obj/map.o: obj Map.cpp Map.hpp
 	$(CXX) $(CFLAGS) -c -o obj/map.o Map.cpp
+
+obj/path.o: obj Path.cpp
+	$(CXX) $(CFLAGS) -c -o obj/path.o Path.cpp
 
 clean:
 	$(RM) program
