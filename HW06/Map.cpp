@@ -111,7 +111,7 @@ std::vector<Village*>* Map::getNeighbours(Village* village)
 	std::vector<Path<Village*>*>::iterator it = paths->begin();
 	while ((it) != paths->end())
 	{
-		reti->push_back(*(*it)->getFinalNode());
+		//reti->push_back(*(*it)->getFinalNode());
 		it++;
 	}
 

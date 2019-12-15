@@ -145,18 +145,7 @@
     <None Include="datapub\pub10.out" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Globals.cpp" />
-    <ClCompile Include="hw06.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="Village.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="config.h" />
-    <ClInclude Include="Exceptions.hpp" />
-    <ClInclude Include="Globals.hpp" />
-    <ClInclude Include="Map.hpp" />
-    <ClInclude Include="Path.hpp" />
-    <ClInclude Include="Village.hpp" />
+    <ClCompile Include="hw06_c.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-
+/*
 int main(int argc, char* argv[])
 {
 	int reti = EXIT_SUCCESS;
@@ -114,3 +114,4 @@ int main(int argc, char* argv[])
 	
 	return reti;
 }
+*/

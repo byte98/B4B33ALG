@@ -75,7 +75,7 @@ Node Path<Node>::getStartingNode()
 template <class Node>
 Node Path<Node>::getFinalNode()
 {
-	return this->final_node;
+	return *(this->final_node);
 }
 
 template <class Node>
