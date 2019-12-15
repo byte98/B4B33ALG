@@ -5,31 +5,31 @@
 #include <queue>
 #include "Globals.hpp"
 
-void Map::findShortestPath(std::queue<Village*>* villages, Village* actual)
+void Map::findShortestPath(std::queue<Village*>* villages, Village* actual, Village* final_village)
 {
+	std::vector<Path<Village*>*>* neighbours = actual->getPaths();
 	Globals* settings = Globals::getInstance();
-#ifdef DEBUG
-	std::cout << "\t\t" << actual->getLabel() << std::endl;
-#endif // DEBUG
-	if (actual->getLabel() == settings->getValue("FINAL VILLAGE"))
+	
+	for (int i = 0; i < neighbours->size(); i++)
 	{
-#ifdef DEBUG
-		std::cout << "\t Found final village!" << std::endl;
-#endif // DEBUG
-		settings->setValue("SHORTEST PATH", 1);
-		return;
-	}
-	else
-	{
-		std::vector<Path<Village*>*>* neighbours = actual->getPaths();
-		std::vector<Path<Village*>*>::iterator it = neighbours->begin();
-		while (it != neighbours->end())
+		Village* final_node = neighbours->at(i)->getFinalNode();
+		if (final_node->getLabel() == final_village->getLabel())
 		{
-			villages->push(*(*it)->getFinalNode());
-			it++;
+#ifdef DEBUG
+			std::cout << "\tFinal village reached!" << std::endl;
+#endif // DEBUG
+			settings->setValue("SHORTEST PATH", 1);
+			while (villages->empty() == false)
+			{
+				villages->pop();
+			}
+			break;
+		}
+		else
+		{
+			villages->push(neighbours->at(i)->getFinalNode());
 		}
 	}
-
 }
 
 Map::Map(int villages)
@@ -123,11 +123,16 @@ std::vector<Village*>* Map::findPath(Village* start_village, Village* final_vill
 {
 	std::vector<Village*>* reti = new std::vector<Village*>();
 
-	std::queue<Village*>* tree_queue = new std::queue<Village*>();
-	tree_queue->push(start_village);
-	while (tree_queue->empty() == false)
-	{
+	std::queue<Village*>* village_queue = new std::queue<Village*>();
+	village_queue->push(start_village);
 
+	Globals* settings = Globals::getInstance();
+
+	while (village_queue->empty() == false && settings->getValue("SHORTEST PATH") == -1)
+	{
+		Village* actual = village_queue->front();
+		village_queue->pop();
+		this->findShortestPath(village_queue, actual, final_village); 
 	}
 
 	return reti;

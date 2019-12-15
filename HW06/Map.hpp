@@ -30,7 +30,7 @@ private:
 	///<summary>
 	///Recursive function which finds shortes path between villages
 	///</summary>
-	void findShortestPath(std::queue<Village*>* villages, Village* actual);
+	void findShortestPath(std::queue<Village*>* villages, Village* actual, Village* final_village);
 
 public:
 	///<summary>

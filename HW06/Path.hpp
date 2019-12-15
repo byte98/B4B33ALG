@@ -39,13 +39,13 @@ public:
 	///Gets starting node of path
 	///</summary>
 	///<returns>Starting node of path</returns>
-	Node* getStartingNode();
+	Node getStartingNode();
 
 	///<summary>
 	///Gets final node of path
 	///</summary>
 	///<returns>Final node of path</returns>
-	Node* getFinalNode();
+	Node getFinalNode();
 
 	///<summary>
 	///Gets cost of path
@@ -67,13 +67,13 @@ Path<Node>::Path(Node* starting_node, Node* final_node, int cost) :
 }
 
 template <class Node>
-Node* Path<Node>::getStartingNode()
+Node Path<Node>::getStartingNode()
 {
 	return this->starting_node;
 }
 
 template <class Node>
-Node* Path<Node>::getFinalNode()
+Node Path<Node>::getFinalNode()
 {
 	return this->final_node;
 }
